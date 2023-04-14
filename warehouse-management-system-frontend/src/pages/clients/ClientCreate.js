@@ -1,16 +1,12 @@
 import {useState} from "react";
-import "./ClientCreate.css";
-
-// 2. Naujo kliento registravimo vaizdas.
+import "./css/ClientCreate.css";
 
 export function ClientCreatePage() {
     const [name, setName] = useState("")
     const [surname, setSurname] = useState("")
     const [dateOfBirth, setDateOfBirth] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
-    // Default value wil be regular or loyal?
     const [clientType, setClientType] = useState("REGULAR")
-
     const [success, setSuccess] = useState();
     const [error, setError] = useState();
 
@@ -64,7 +60,6 @@ export function ClientCreatePage() {
     return (
         <div className="container">
             <h1>Create New Client</h1>
-
             <div>
                 <label htmlFor="nameClient">Name </label>
                 <input
@@ -98,7 +93,6 @@ export function ClientCreatePage() {
             <div>
                 <label htmlFor="phoneNumber">Phone Number </label>
                 <input
-
                     id="phoneNumber"
                     value={phoneNumber}
                     onChange={
@@ -113,7 +107,6 @@ export function ClientCreatePage() {
                     value={clientType}
                     onChange={handleChange}
                 >
-                    {/*  FIX THIS   */}
                     <option value="REGULAR">Regular client</option>
                     <option value="LOYAL">Loyal client</option>
                 </select>
