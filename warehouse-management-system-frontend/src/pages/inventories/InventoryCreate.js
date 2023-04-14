@@ -1,104 +1,73 @@
-// 4. Naujo inventoriaus registravimo vaizdas.
-// Užregistravus inventorių, grįžtama į kliento informacijos
-// peržiūros vaizdą.
 import {useState} from "react";
+import {useParams} from "react-router-dom";
+import './css/InventoryCreate.css'
 
 export function InventoryCreatePage() {
-    const [name, setName] = useState("")
-    const [weight, setWeight] = useState()
-    const [sector, setSector] = useState()
-    const [createdDate, setCreatedDate] = useState()
-
-    const [success, setSuccess] = useState();
-    const [error, setError] = useState();
-
-    const applyResult = (result) => {
-        if (result.ok) {
-            setSuccess("Inventory was created successful.");
-            //Return to /view-client
-        } else {
-            result
-                .text()
-                .then((text) => {
-                    const response = JSON.parse(text);
-                    setError(response.message);
-                })
-                .catch((error) => {
-                    setError("Inventory was not created successful.", error);
-                });
-        }
-    };
+    const params = useParams();
+    const [inputs, setInputs] = useState({});
 
     const createInventory = () => {
-        // setSuccess("");
-        // setError("");
-        // fetch link
-        fetch("api/v1/clients/create-inventory", {
-            method: "POST",
+        fetch(`/api/v1/inventories/create-inventory/${params.id}`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name,
-                weigth: weight,
-                sector,
-                createdDate,
-            }),
-        }).then(applyResult);
+                name: inputs.name,
+                weight: inputs.weight,
+                sector: inputs.sector,
+                createdDate: inputs.createdDate
+            })
+        })
     }
 
-    //Return to /view-client
+    const handleChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs(values => ({...values, [name]: value}))
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(inputs);
+        console.log(params.id);
+        createInventory();
+    }
 
     return (
-        <div>
-            <h1>Create New Inventory</h1>
+        <div className="container">
+            <h1>Create New Inventory </h1>
             <div>
-                <label htmlFor="name">Name </label>
-                <input
-                    required
-                    id="name"
-                    value={name}
-                    onChange={
-                        (e) => setName(e.target.value)
-                    }
-                />
-            </div>
-            <div>
-                <label htmlFor="weight">Weight </label>
-                <input
-                    required
-                    id="weight"
-                    value={weight}
-                    onChange={
-                        (e) => setWeight(e.target.value)
-                    }
-                />
-            </div>
-            <div>
-                <label htmlFor="sector">Sector </label>
-                <input
-                    required
-                    id="sector"
-                    value={sector}
-                    onChange={
-                        (e) => setSector(e.target.value)
-                    }
-                />
-            </div>
-            <div>
-                <label htmlFor="createdDate">Created Date </label>
-                <input
-                    required
-                    id="createdDate"
-                    value={createdDate}
-                    onChange={
-                        (e) => setCreatedDate(e.target.value)
-                    }
-                />
-            </div>
-            {error && <div className="errorText">{error}</div>}
-            <div>
-                <button onClick={createInventory}>Create</button>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Inventory name</label>
+                    </div>
+                    <input
+                        type="text"
+                        name="name"
+                        value={inputs.name || ""}
+                        onChange={handleChange}
+                    />
+                    <label>Weight (kg)</label>
+                    <input
+                        type="text"
+                        name="weight"
+                        value={inputs.weight || ""}
+                        onChange={handleChange}
+                    />
+                    <label>sector</label>
+                    <input
+                        type="text"
+                        name="sector"
+                        value={inputs.sector || ""}
+                        onChange={handleChange}
+                    />
+                    <br></br>
+                    <div>
+                        <input type="submit"/>
+                    </div>
+                    <br></br>
+                </form>
             </div>
         </div>
     )
