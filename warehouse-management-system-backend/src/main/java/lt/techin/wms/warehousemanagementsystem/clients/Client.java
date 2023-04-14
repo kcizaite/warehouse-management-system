@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @NotBlank(message = "Please enter name not blank")
     @NotNull(message = "Please enter name not null")

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Inventory {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @NotBlank
     @NotNull
@@ -25,7 +25,7 @@ public class Inventory {
     @Min(value = 1, message = "Sector must be at least 1")
     @Max(value = 40, message = "Sector cannot be greater than 40")
     private int sector;
-    @NotNull
+
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdDate;
