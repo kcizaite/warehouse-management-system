@@ -1,5 +1,6 @@
 package lt.techin.wms.warehousemanagementsystem.clients;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lt.techin.wms.warehousemanagementsystem.inventories.Inventory;
@@ -19,7 +20,9 @@ public class ClientDto {
 
     private ClientType clientType;
     private List<Inventory> inventories;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime modifiedDate;
 
     public ClientDto() {

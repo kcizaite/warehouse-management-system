@@ -1,6 +1,8 @@
 package lt.techin.wms.warehousemanagementsystem.inventories;
 
 import lt.techin.wms.warehousemanagementsystem.clients.ClientDto;
+import lt.techin.wms.warehousemanagementsystem.clients.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,12 @@ import static lt.techin.wms.warehousemanagementsystem.inventories.InventoryMappe
 @RequestMapping("/api/v1/inventories")
 public class InventoryController {
     Logger logger = Logger.getLogger(InventoryController.class.getName());
+    @Autowired
     private final InventoryService inventoryService;
+    @Autowired
     private InventoryRepository inventoryRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     public InventoryController(InventoryService inventoryService, InventoryRepository inventoryRepository) {
         this.inventoryService = inventoryService;
@@ -33,10 +39,13 @@ public class InventoryController {
 
     @GetMapping(value = "/get-inventories/{clientId}")
     public ResponseEntity<List<InventoryDto>> getClientInventory(@PathVariable Long clientId) {
-//        var inventories = inventoryRepository.findInventoryByClientId(clientId)
-        var inventories = inventoryRepository.findInventoriesById(clientId)
-                .stream().map(InventoryMapper::toInventoryDto).toList();
-        logger.log(Level.INFO, "getting client inventory id {}", clientId);
+        var client = clientRepository.findById(clientId).orElse(null);
+        if (client == null) {
+            logger.log(Level.WARNING, "Client with id {} not found", clientId);
+            return ResponseEntity.notFound().build();
+        }
+        var inventories = client.getInventories().stream().map(InventoryMapper::toInventoryDto).toList();
+        logger.log(Level.INFO, "Getting client inventory for client with id {}", clientId);
         return ResponseEntity.ok(inventories);
     }
 

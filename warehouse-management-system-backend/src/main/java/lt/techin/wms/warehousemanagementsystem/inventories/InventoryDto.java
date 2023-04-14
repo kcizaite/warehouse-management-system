@@ -1,5 +1,7 @@
 package lt.techin.wms.warehousemanagementsystem.inventories;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
 public class InventoryDto {
@@ -7,7 +9,9 @@ public class InventoryDto {
     private String name;
     private int weight;
     private int sector;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime modifiedDate;
 
     public InventoryDto() {

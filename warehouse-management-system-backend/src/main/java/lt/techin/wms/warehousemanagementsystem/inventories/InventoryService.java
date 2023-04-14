@@ -26,7 +26,6 @@ public class InventoryService {
         return inventoryRepository.findById(id).orElse(new Inventory());
     }
 
-
     public Client create(Inventory inventory, Long clientId) {
         var client = clientRepository.findById(clientId).orElse(null);
         if (client == null) {

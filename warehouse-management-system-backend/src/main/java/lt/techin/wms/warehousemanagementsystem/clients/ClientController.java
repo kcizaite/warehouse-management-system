@@ -48,6 +48,4 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Map.of("message", (toClientDto(createClient).toString())));
     }
-
-
 }
