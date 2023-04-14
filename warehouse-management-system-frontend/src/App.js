@@ -16,7 +16,7 @@ function App() {
                     <Route path='/clients/view-client/:id' element={<ClientViewPage />} />
                     {/* Inventory paths */}
                     {/* Change path name */}
-                    <Route path='/clients/create-inventory' element={<InventoryCreatePage/>}/>
+                    <Route path='/create-inventory/:id' element={<InventoryCreatePage/>}/>
                 </Routes>
             </HashRouter>
         </div>
